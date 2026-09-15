@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <pattern id="parang" width="80" height="80" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+      <rect width="80" height="80" fill="#f0e6d2"/>
+      <rect width="80" height="18" fill="#8b5a2b"/>
+      <rect y="26" width="80" height="6" fill="#c9a227"/>
+      <rect y="40" width="80" height="18" fill="#2e4756"/>
+      <rect y="66" width="80" height="6" fill="#c9a227"/>
+    </pattern>
+  </defs>
+  <rect width="400" height="400" fill="url(#parang)"/>
+  <circle cx="200" cy="200" r="70" fill="#f0e6d2" stroke="#8b5a2b" stroke-width="4"/>
+  <text x="200" y="192" text-anchor="middle" font-family="Georgia, serif" font-size="22" fill="#6b4226">Batik</text>
+  <text x="200" y="218" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#8b5a2b">Nusantara</text>
+</svg>
