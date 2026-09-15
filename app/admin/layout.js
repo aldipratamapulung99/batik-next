@@ -1,45 +1,11 @@
-import Link from 'next/link';
-import { cookies } from 'next/headers';
-import { ADMIN_COOKIE_NAME, verifikasiTokenSesi } from '@/lib/session';
+import '../globals.css';
 
-export default async function AdminProtectedLayout({ children }) {
-  // Middleware sudah memblokir akses tanpa sesi valid; ini lapisan kedua
-  // supaya nama admin bisa ditampilkan di sidebar (mirip $_SESSION['admin_username']).
-  const token = cookies().get(ADMIN_COOKIE_NAME)?.value;
-  const sesi = await verifikasiTokenSesi(token);
+export const metadata = { title: 'Admin — Batik Nusantara' };
 
+export default function AdminRootLayout({ children }) {
   return (
-    <div className="admin-shell">
-      <aside className="admin-sidebar">
-        <h3 style={{ color: 'var(--emas)' }}>Batik Nusantara</h3>
-        <p style={{ fontSize: '0.85rem', color: '#c7d0d4' }}>Halo, {sesi?.username || 'Admin'}</p>
-        <nav style={{ marginTop: 24 }}>
-          <Link href="/admin/dashboard">Dashboard</Link>
-          <Link href="/admin/tambah">Tambah Produk</Link>
-          <Link href="/admin/kategori">Kategori</Link>
-          <Link href="/admin/pesan">Pesan Masuk</Link>
-          <Link href="/admin/laporan">Laporan Penjualan</Link>
-          <Link href="/">Lihat Website</Link>
-          <form action="/admin/logout" method="POST" style={{ marginTop: 4 }}>
-            <button
-              type="submit"
-              style={{
-                background: 'none',
-                border: 'none',
-                color: 'inherit',
-                cursor: 'pointer',
-                font: 'inherit',
-                padding: 0,
-                textAlign: 'left',
-                width: '100%',
-              }}
-            >
-              Keluar
-            </button>
-          </form>
-        </nav>
-      </aside>
-      <main className="admin-konten">{children}</main>
-    </div>
+    <html lang="id">
+      <body>{children}</body>
+    </html>
   );
 }
