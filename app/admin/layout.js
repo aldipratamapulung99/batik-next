@@ -1,8 +1,11 @@
-import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
-import { ADMIN_COOKIE_NAME } from '@/lib/session';
+import '../globals.css';
 
-export async function POST(request) {
-  cookies().delete(ADMIN_COOKIE_NAME);
-  return NextResponse.redirect(new URL('/admin/login', request.url), { status: 303 });
+export const metadata = { title: 'Admin — Batik Nusantara' };
+
+export default function AdminRootLayout({ children }) {
+  return (
+    <html lang="id">
+      <body>{children}</body>
+    </html>
+  );
 }
