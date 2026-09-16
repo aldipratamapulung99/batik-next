@@ -4,14 +4,19 @@ import { formatRupiah } from '@/lib/helpers';
 export const metadata = { title: 'Laporan Penjualan — Admin' };
 export const dynamic = 'force-dynamic';
 
+const NAMA_BULAN = [
+  'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun',
+  'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des',
+];
+
 function formatTanggal(iso) {
-  return new Date(iso).toLocaleString('id-ID', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-  });
+  const tgl = new Date(iso);
+  const hari = String(tgl.getDate()).padStart(2, '0');
+  const bulan = NAMA_BULAN[tgl.getMonth()];
+  const tahun = tgl.getFullYear();
+  const jam = String(tgl.getHours()).padStart(2, '0');
+  const menit = String(tgl.getMinutes()).padStart(2, '0');
+  return `${hari} ${bulan} ${tahun} • ${jam}:${menit}`;
 }
 
 export default async function LaporanPenjualanPage({ searchParams }) {
