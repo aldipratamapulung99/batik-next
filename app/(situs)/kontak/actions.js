@@ -12,6 +12,12 @@ import {
 
 const UKURAN_VALID = ['S', 'M', 'L', 'XL', 'XXL', 'Custom / Sebutkan di pesan'];
 
+/** Membuat kode pesanan acak, formatnya sama dengan yang dipakai proses checkout keranjang */
+function buatKodePesanan() {
+  const acak = Math.random().toString(36).slice(2, 8).toUpperCase();
+  return `ORD-${acak}`;
+}
+
 export async function kirimPesan(formData) {
   const nama = (formData.get('nama') || '').toString().trim();
   const email = (formData.get('email') || '').toString().trim();
@@ -57,6 +63,8 @@ export async function kirimPesan(formData) {
     if (!cukup) gagal('Maaf, stok produk tidak mencukupi untuk jumlah yang diminta.');
   }
 
+  const kodePesanan = produkId > 0 ? buatKodePesanan() : null;
+
   const sukses = await simpanPesan({
     nama,
     email,
@@ -66,6 +74,8 @@ export async function kirimPesan(formData) {
     produkId: produkId > 0 ? produkId : null,
     jumlah,
     alamat,
+    kodePesanan,
+    hargaSatuan: produkTerpilih ? produkTerpilih.harga : null,
   });
 
   if (!sukses) {
