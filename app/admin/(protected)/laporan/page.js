@@ -36,13 +36,13 @@ export default async function LaporanPenjualanPage({ searchParams }) {
           <label htmlFor="dari" style={{ display: 'block', marginBottom: 4 }}>
             Dari Tanggal
           </label>
-          <input type="date" id="dari" name="dari" defaultValue={dari} />
+          <input type="date" id="dari" name="dari" defaultValue={dari} className="input-tanggal" />
         </div>
         <div>
           <label htmlFor="sampai" style={{ display: 'block', marginBottom: 4 }}>
             Sampai Tanggal
           </label>
-          <input type="date" id="sampai" name="sampai" defaultValue={sampai} />
+          <input type="date" id="sampai" name="sampai" defaultValue={sampai} className="input-tanggal" />
         </div>
         <button type="submit" className="btn btn-emas">
           Tampilkan

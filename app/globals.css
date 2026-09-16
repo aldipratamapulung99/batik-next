@@ -532,3 +532,32 @@ section { padding: 64px 0; }
     background: var(--indigo);
     color: var(--putih);
 }
+
+/* ---------- Input Tanggal (filter laporan) ---------- */
+.input-tanggal {
+    padding: 10px 14px;
+    border: 1px solid #c9bda0;
+    border-radius: var(--radius);
+    font-size: 0.95rem;
+    font-family: inherit;
+    background: var(--putih);
+    color: var(--teks);
+    cursor: pointer;
+}
+.input-tanggal:hover {
+    border-color: var(--soga);
+}
+.input-tanggal:focus {
+    outline: none;
+    border-color: var(--emas);
+    box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.2);
+}
+.input-tanggal::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    filter: invert(24%) sepia(20%) saturate(1200%) hue-rotate(360deg);
+}
+.input-tanggal::-webkit-calendar-picker-indicator:hover {
+    background: var(--krem);
+}
