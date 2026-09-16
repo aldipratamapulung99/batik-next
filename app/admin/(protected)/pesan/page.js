@@ -8,6 +8,7 @@ export const dynamic = 'force-dynamic';
 function formatTanggal(iso) {
   const d = new Date(iso);
   return d.toLocaleString('id-ID', {
+    timeZone: 'Asia/Jakarta',
     day: '2-digit',
     month: 'short',
     year: 'numeric',

@@ -11,11 +11,23 @@ const NAMA_BULAN = [
 
 function formatTanggal(iso) {
   const tgl = new Date(iso);
-  const hari = String(tgl.getDate()).padStart(2, '0');
-  const bulan = NAMA_BULAN[tgl.getMonth()];
-  const tahun = tgl.getFullYear();
-  const jam = String(tgl.getHours()).padStart(2, '0');
-  const menit = String(tgl.getMinutes()).padStart(2, '0');
+  const bagian = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'Asia/Jakarta',
+    day: '2-digit',
+    month: 'numeric',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  }).formatToParts(tgl);
+
+  const ambil = (tipe) => bagian.find((b) => b.type === tipe)?.value;
+  const hari = ambil('day');
+  const bulan = NAMA_BULAN[Number(ambil('month')) - 1];
+  const tahun = ambil('year');
+  const jam = ambil('hour');
+  const menit = ambil('minute');
+
   return `${hari} ${bulan} ${tahun} • ${jam}:${menit}`;
 }
 
