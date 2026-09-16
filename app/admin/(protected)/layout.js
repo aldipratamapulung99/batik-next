@@ -20,7 +20,11 @@ export default async function AdminProtectedLayout({ children }) {
           <Link href="/admin/pesan">Pesan Masuk</Link>
           <Link href="/admin/laporan">Laporan Penjualan</Link>
           <Link href="/">Lihat Website</Link>
-          <Link href="/admin/logout">Keluar</Link>
+          <form action="/admin/logout" method="POST">
+            <button type="submit" className="btn-keluar">
+              Keluar
+            </button>
+          </form>
         </nav>
       </aside>
       <main className="admin-konten">{children}</main>

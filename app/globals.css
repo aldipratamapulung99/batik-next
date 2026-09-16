@@ -509,3 +509,26 @@ section { padding: 64px 0; }
     border-bottom: 1px solid #e6dcc4;
     font-size: 0.9rem;
 }
+
+/* ---------- Tombol Keluar (logout) ---------- */
+.admin-sidebar form {
+    margin: 0;
+    padding: 0;
+}
+.admin-sidebar .btn-keluar {
+    display: block;
+    width: 100%;
+    text-align: left;
+    color: var(--krem);
+    background: none;
+    border: none;
+    padding: 10px 12px;
+    border-radius: var(--radius);
+    margin-bottom: 4px;
+    font: inherit;
+    cursor: pointer;
+}
+.admin-sidebar .btn-keluar:hover {
+    background: var(--indigo);
+    color: var(--putih);
+}
