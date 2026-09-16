@@ -64,7 +64,14 @@ export default async function KontakPage({ searchParams }) {
           <textarea id="alamat" name="alamat" required={!!produkDipesan}></textarea>
 
           <label htmlFor="subjek">Subjek</label>
-          <input type="text" id="subjek" name="subjek" />
+          {produkDipesan ? (
+            <>
+              <input type="text" value={produkDipesan.nama_produk} disabled readOnly />
+              <input type="hidden" name="subjek" value={produkDipesan.nama_produk} />
+            </>
+          ) : (
+            <input type="text" id="subjek" name="subjek" />
+          )}
 
           {tampilkanUkuran &&
             (produkDipesan && produkDipesan.pakai_ukuran ? (
