@@ -1,5 +1,6 @@
 'use server';
 
+import { revalidatePath } from 'next/cache';
 import { buatTransaksiKeranjang } from '@/lib/data';
 import { buatKodePesanan } from '@/lib/helpers';
 
@@ -25,6 +26,10 @@ export async function prosesCheckout({ nama, email, alamat, catatan, items }) {
   if (!hasil.sukses) {
     return { sukses: false, pesan: hasil.pesan };
   }
+
+  revalidatePath('/admin/laporan');
+  revalidatePath('/admin/pesan');
+  revalidatePath('/admin/dashboard');
 
   return { sukses: true, kodePesanan };
 }

@@ -1,6 +1,7 @@
 'use server';
 
 import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 import {
   ambilProdukById,
   simpanPesan,
@@ -9,14 +10,9 @@ import {
   kurangiStokUkuran,
   kembalikanStokUkuran,
 } from '@/lib/data';
+import { buatKodePesanan } from '@/lib/helpers';
 
 const UKURAN_VALID = ['S', 'M', 'L', 'XL', 'XXL', 'Custom / Sebutkan di pesan'];
-
-/** Membuat kode pesanan acak, formatnya sama dengan yang dipakai proses checkout keranjang */
-function buatKodePesanan() {
-  const acak = Math.random().toString(36).slice(2, 8).toUpperCase();
-  return `ORD-${acak}`;
-}
 
 export async function kirimPesan(formData) {
   const nama = (formData.get('nama') || '').toString().trim();
@@ -85,6 +81,10 @@ export async function kirimPesan(formData) {
     }
     gagal('Terjadi kesalahan, silakan coba lagi.');
   }
+
+  revalidatePath('/admin/laporan');
+  revalidatePath('/admin/pesan');
+  revalidatePath('/admin/dashboard');
 
   paramsBalik.set('status', 'sukses');
   paramsBalik.set('pesan', 'Terima kasih, pesan Anda sudah kami terima. Kami akan membalas melalui email secepatnya.');
