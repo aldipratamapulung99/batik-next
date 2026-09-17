@@ -24,6 +24,14 @@ export default function LoginAdminPage({ searchParams }) {
             Masuk
           </button>
         </form>
+
+        <div
+          className="alert"
+          style={{ marginTop: 20, background: '#f0ead9', fontSize: '0.85rem', textAlign: 'center' }}
+        >
+          Akun demo — Username: <strong>admin</strong> &nbsp;|&nbsp; Password: <strong>admin123</strong>
+        </div>
+
         <p style={{ textAlign: 'center', marginTop: 16 }}>
           <Link href="/">&larr; Kembali ke website</Link>
         </p>
