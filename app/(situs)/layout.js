@@ -50,6 +50,29 @@ export default function RootLayout({ children }) {
                   Melestarikan warisan batik Indonesia lewat karya tulis dan cap tangan asli perajin lokal.
                 </p>
               </div>
+
+              <div>
+                <h4 style={{ color: '#F0E6D2', marginBottom: 8 }}>Media Sosial</h4>
+                <p>
+                  <a href="https://wa.me/6288991925369" target="_blank" rel="noopener noreferrer">
+                    WhatsApp
+                  </a>
+                </p>
+                <p>
+                  <a href="https://instagram.com/aldiptraprtm" target="_blank" rel="noopener noreferrer">
+                    Instagram
+                  </a>
+                </p>
+                <p>
+                  <a href="mailto:aldiajha1221@gmail.com">Email</a>
+                </p>
+                <p>
+                  <a href="https://linkedin.com/in/aldi-putra-pratama-83a689425" target="_blank" rel="noopener noreferrer">
+                    LinkedIn
+                  </a>
+                </p>
+              </div>
+
               <div>
                 <h4 style={{ color: '#F0E6D2', marginBottom: 8 }}>Tautan</h4>
                 <p>
