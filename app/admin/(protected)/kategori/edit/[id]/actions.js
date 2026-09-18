@@ -1,6 +1,7 @@
 'use server';
 
 import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 import { ubahKategori } from '@/lib/data';
 
 export async function ubahKategoriAction(id, formData) {
@@ -11,5 +12,10 @@ export async function ubahKategoriAction(id, formData) {
   }
 
   await ubahKategori(id, nama);
+
+  revalidatePath('/admin/kategori');
+  revalidatePath('/admin/tambah');
+  revalidatePath('/produk');
+
   redirect('/admin/kategori');
 }

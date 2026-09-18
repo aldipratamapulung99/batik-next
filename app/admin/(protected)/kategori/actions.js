@@ -1,6 +1,7 @@
 'use server';
 
 import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 import { tambahKategori } from '@/lib/data';
 
 export async function tambahKategoriAction(formData) {
@@ -11,5 +12,10 @@ export async function tambahKategoriAction(formData) {
   }
 
   await tambahKategori(nama);
+
+  revalidatePath('/admin/kategori');
+  revalidatePath('/admin/tambah');
+  revalidatePath('/produk');
+
   redirect('/admin/kategori');
 }

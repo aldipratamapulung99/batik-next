@@ -23,4 +23,5 @@ export async function ubahStatusPesanAction(id, status) {
   await ubahStatusPesan(id, status);
   revalidatePath('/admin/pesan');
   revalidatePath('/admin/dashboard');
+  revalidatePath('/admin/laporan');
 }
