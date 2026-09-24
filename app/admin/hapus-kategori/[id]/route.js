@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { hapusKategori } from '@/lib/data';
 
+export const fetchCache = 'force-no-store';
+
 export async function GET(request, { params }) {
   const id = parseInt(params.id, 10);
   let pesanError = '';
