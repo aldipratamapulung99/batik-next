@@ -687,6 +687,32 @@ section { padding: 64px 0; }
 .kolom-total-label { text-align: right; font-weight: 700; }
 .kolom-total-nilai { font-weight: 700; color: var(--soga-dark); }
 
+/* ---------- Grafik dashboard ---------- */
+.keterangan-grafik { color: #6b5b47; font-size: 0.9rem; margin: 0 0 16px; }
+
+.grafik-svg { width: 100%; height: auto; display: block; }
+.grafik-garis { stroke: #e6dcc4; stroke-width: 1; }
+.grafik-sumbu-teks { fill: #6b5b47; font-size: 11px; }
+.grafik-nilai { fill: var(--indigo-dark); font-size: 11px; font-weight: 600; }
+.grafik-batang { fill: var(--indigo); }
+.grafik-batang:hover { fill: var(--emas); }
+
+.daftar-bar { display: flex; flex-direction: column; gap: 12px; }
+.bar-baris {
+    display: grid;
+    grid-template-columns: minmax(120px, 200px) 1fr auto;
+    align-items: center;
+    gap: 14px;
+    font-size: 0.9rem;
+}
+.bar-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bar-track { background: #f2e9d8; border-radius: 4px; height: 18px; overflow: hidden; }
+.bar-isi { height: 100%; background: var(--soga); border-radius: 4px; }
+.bar-nilai { color: #6b5b47; white-space: nowrap; }
+@media (max-width: 640px) {
+    .bar-baris { grid-template-columns: 1fr; gap: 4px; }
+}
+
 /* ---------- Pratinjau & Cetak Struk (laporan penjualan) ---------- */
 .dialog-struk {
     padding: 0;
