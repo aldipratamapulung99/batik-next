@@ -1,5 +1,6 @@
 import { ambilProdukById, ambilStokUkuran } from '@/lib/data';
-import { formatRupiah, kategoriTanpaUkuran } from '@/lib/helpers';
+import { kategoriTanpaUkuran } from '@/lib/helpers';
+import { RingkasanPesananLangsung } from '@/components/PemilihUkuran';
 import { kirimPesan } from './actions';
 
 export const metadata = { title: 'Kontak — Batik Nusantara' };
@@ -23,6 +24,9 @@ export default async function KontakPage({ searchParams }) {
     }
   }
 
+  const jumlahDiminta = parseInt(searchParams?.jumlah || '1', 10) || 1;
+  const jumlahAwal = Math.min(Math.max(jumlahDiminta, 1), Math.max(stokMaks, 1));
+
   const tampilkanUkuran = !(produkDipesan && kategoriTanpaUkuran().includes(produkDipesan.nama_kategori));
 
   return (
@@ -43,14 +47,13 @@ export default async function KontakPage({ searchParams }) {
           {produkDipesan && (
             <>
               <input type="hidden" name="produk_id" value={produkDipesan.id} />
-              <div className="alert" style={{ maxWidth: 560, background: '#f0ead9' }}>
-                Memesan: <strong>{produkDipesan.nama_produk}</strong>
-                {ukuranTampil ? ` (ukuran ${ukuranTampil})` : ''} ({formatRupiah(produkDipesan.harga)}) — stok
-                tersedia {stokMaks} pcs
-              </div>
-
-              <label htmlFor="jumlah">Jumlah</label>
-              <input type="number" id="jumlah" name="jumlah" min={1} max={stokMaks} defaultValue={1} />
+              <RingkasanPesananLangsung
+                namaProduk={produkDipesan.nama_produk}
+                ukuran={ukuranTampil}
+                harga={produkDipesan.harga}
+                stokMaks={stokMaks}
+                jumlahAwal={jumlahAwal}
+              />
             </>
           )}
 

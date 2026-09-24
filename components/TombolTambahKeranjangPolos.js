@@ -3,10 +3,15 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useKeranjang } from './KonteksKeranjang';
+import { PemilihJumlah } from './PemilihUkuran';
 
 export default function TombolTambahKeranjangPolos({ produk, hrefKontak }) {
   const { tambahItem } = useKeranjang();
+  const [jumlah, setJumlah] = useState(1);
   const [pesanStatus, setPesanStatus] = useState('');
+
+  const habis = produk.stok <= 0;
+  const jumlahAman = Math.min(jumlah, Math.max(produk.stok, 1));
 
   function tambahKeKeranjang() {
     tambahItem({
@@ -15,21 +20,28 @@ export default function TombolTambahKeranjangPolos({ produk, hrefKontak }) {
       harga: produk.harga,
       gambar: produk.gambar,
       ukuran: null,
-      jumlah: 1,
+      jumlah: jumlahAman,
     });
-    setPesanStatus('Ditambahkan ke keranjang!');
+    setPesanStatus(`${jumlahAman} pcs ditambahkan ke keranjang!`);
     setTimeout(() => setPesanStatus(''), 2000);
   }
 
   return (
-    <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'center', marginTop: 16 }}>
-      <button type="button" className="btn btn-emas" onClick={tambahKeKeranjang} disabled={produk.stok <= 0}>
-        Tambah ke Keranjang
-      </button>
-      <Link href={hrefKontak} className="btn btn-garis-soga">
-        Pesan Langsung
-      </Link>
-      {pesanStatus && <span style={{ color: '#3E8E4F', fontWeight: 600 }}>{pesanStatus}</span>}
-    </div>
+    <>
+      <div className="baris-jumlah">
+        <span className="label-jumlah">Jumlah</span>
+        <PemilihJumlah nilai={jumlahAman} maks={produk.stok} onUbah={setJumlah} nonaktif={habis} />
+      </div>
+
+      <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'center', marginTop: 16 }}>
+        <button type="button" className="btn btn-emas" onClick={tambahKeKeranjang} disabled={habis}>
+          Tambah ke Keranjang
+        </button>
+        <Link href={`${hrefKontak}&jumlah=${jumlahAman}`} className={`btn btn-garis-soga${habis ? ' btn-nonaktif' : ''}`}>
+          Pesan Langsung
+        </Link>
+        {pesanStatus && <span style={{ color: '#3E8E4F', fontWeight: 600 }}>{pesanStatus}</span>}
+      </div>
+    </>
   );
 }

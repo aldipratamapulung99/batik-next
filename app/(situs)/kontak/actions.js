@@ -31,6 +31,7 @@ export async function kirimPesan(formData) {
   const paramsBalik = new URLSearchParams();
   if (produkId > 0) paramsBalik.set('produk_id', String(produkId));
   if (ukuran) paramsBalik.set('ukuran', ukuran);
+  if (produkId > 0) paramsBalik.set('jumlah', String(jumlah));
 
   function gagal(pesan) {
     paramsBalik.set('status', 'error');

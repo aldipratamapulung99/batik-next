@@ -562,6 +562,65 @@ section { padding: 64px 0; }
     background: var(--krem);
 }
 
+/* ---------- Pemilih Jumlah (detail produk & pesan langsung) ---------- */
+.baris-jumlah {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 20px;
+}
+.baris-jumlah .label-jumlah { color: #6b5b47; }
+.baris-jumlah .info-stok { color: #6b5b47; font-size: 0.9rem; }
+
+.pemilih-jumlah {
+    display: inline-flex;
+    align-items: stretch;
+    border: 2px solid var(--indigo-dark);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--putih);
+}
+.pemilih-jumlah button {
+    width: 40px;
+    border: none;
+    background: transparent;
+    color: var(--indigo-dark);
+    font-size: 1.2rem;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+}
+.pemilih-jumlah button:hover:not(:disabled) {
+    background: var(--indigo-dark);
+    color: var(--putih);
+}
+.pemilih-jumlah button:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+}
+.pemilih-jumlah .input-jumlah {
+    width: 56px;
+    padding: 8px 4px;
+    border: none;
+    border-left: 1px solid #c9bda0;
+    border-right: 1px solid #c9bda0;
+    border-radius: 0;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: inherit;
+    color: var(--teks);
+    background: transparent;
+}
+.pemilih-jumlah .input-jumlah:focus { outline: none; background: #fff; }
+.pemilih-jumlah .input-jumlah:disabled { color: #aaa; }
+
+.ringkasan-pesan-langsung {
+    max-width: 560px;
+    margin-bottom: 8px;
+}
+
 /* ---------- Pratinjau & Cetak Struk (laporan penjualan) ---------- */
 .dialog-struk {
     padding: 0;
