@@ -713,6 +713,59 @@ section { padding: 64px 0; }
     .bar-baris { grid-template-columns: 1fr; gap: 4px; }
 }
 
+/* ---------- Laporan formal (cetak untuk atasan) ---------- */
+.dialog-laporan { width: min(920px, 96vw); }
+
+.laporan-cetak {
+    padding: 28px 32px;
+    background: #fff;
+    color: #000;
+    font-family: 'Times New Roman', Georgia, serif;
+    font-size: 14px;
+    line-height: 1.5;
+}
+.laporan-kop {
+    text-align: center;
+    padding-bottom: 10px;
+    margin-bottom: 16px;
+    border-bottom: 3px double #000;
+}
+.laporan-nama { font-size: 1.3rem; font-weight: 700; letter-spacing: 1px; }
+.laporan-judul { font-size: 1.1rem; font-weight: 700; }
+.laporan-periode { margin-top: 4px; }
+
+.laporan-ringkasan { border-collapse: collapse; margin-bottom: 16px; }
+.laporan-ringkasan td { padding: 2px 10px 2px 0; }
+
+.laporan-tabel { width: 100%; border-collapse: collapse; }
+.laporan-tabel th,
+.laporan-tabel td {
+    border: 1px solid #000;
+    padding: 5px 8px;
+    text-align: left;
+    vertical-align: top;
+}
+.laporan-tabel th {
+    background: #e8e8e8;
+    text-align: center;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+.laporan-tabel .angka { text-align: right; white-space: nowrap; }
+.laporan-tabel .tengah { text-align: center; }
+.laporan-tabel tfoot td { font-weight: 700; }
+
+.laporan-catatan { margin-top: 16px; font-size: 0.85rem; }
+
+.laporan-ttd {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 32px;
+    break-inside: avoid;
+}
+.laporan-ttd > div { width: 220px; text-align: center; }
+.laporan-ttd .ruang-ttd { height: 70px; }
+
 /* ---------- Pratinjau & Cetak Struk (laporan penjualan) ---------- */
 .dialog-struk {
     padding: 0;
@@ -765,7 +818,9 @@ section { padding: 64px 0; }
     body * { visibility: hidden; }
     .dialog-struk,
     .dialog-struk .struk-cetak,
-    .dialog-struk .struk-cetak * { visibility: visible; }
+    .dialog-struk .struk-cetak *,
+    .dialog-struk .laporan-cetak,
+    .dialog-struk .laporan-cetak * { visibility: visible; }
 
     .dialog-struk {
         position: absolute;
@@ -783,4 +838,9 @@ section { padding: 64px 0; }
     .dialog-struk::backdrop { display: none; }
 
     .struk-cetak { width: 100%; max-width: none; padding: 0; font-size: 14px; }
+
+    .dialog-laporan { width: 100%; }
+    .laporan-cetak { padding: 0; font-size: 12px; }
+    .laporan-tabel thead { display: table-header-group; }
+    .laporan-tabel tr { break-inside: avoid; }
 }

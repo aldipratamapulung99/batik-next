@@ -31,25 +31,30 @@ function formatTanggal(iso) {
   return `${hari} ${bulan} ${tahun} • ${jam}:${menit}`;
 }
 
+const NAMA_BULAN_PANJANG = [
+  'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+  'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember',
+];
+
+// '2026-09-17' -> '17 September 2026'
+function formatTanggalPanjang(ymd) {
+  const [th, bl, tg] = String(ymd).split('-').map(Number);
+  if (!th || !bl || !tg) return ymd;
+  return `${tg} ${NAMA_BULAN_PANJANG[bl - 1]} ${th}`;
+}
+
 export default async function LaporanPenjualanPage({ searchParams }) {
   const dari = searchParams?.dari || '';
   const sampai = searchParams?.sampai || '';
   const laporan = await ambilLaporanPenjualan({ dari: dari || null, sampai: sampai || null });
 
-  // Kelompokkan baris per pesanan untuk struk
-  const pesanan = [];
-  const peta = new Map();
-  for (const b of laporan.baris) {
-    if (!peta.has(b.kodePesanan)) {
-      const p = { kode: b.kodePesanan, tanggal: b.tanggal, item: [] };
-      peta.set(b.kodePesanan, p);
-      pesanan.push(p);
-    }
-    peta.get(b.kodePesanan).item.push(b);
-  }
   const aman = (v) => v.replace(/[^0-9-]/g, '');
   const namaBerkas = `Laporan-Penjualan_${aman(dari) || 'awal'}_${aman(sampai) || 'akhir'}`;
-  const periode = dari || sampai ? `${dari || '...'} s/d ${sampai || '...'}` : 'Semua tanggal';
+
+  let periode = 'Semua tanggal';
+  if (dari && sampai) periode = `${formatTanggalPanjang(dari)} s/d ${formatTanggalPanjang(sampai)}`;
+  else if (dari) periode = `Sejak ${formatTanggalPanjang(dari)}`;
+  else if (sampai) periode = `Sampai dengan ${formatTanggalPanjang(sampai)}`;
 
   return (
     <>
@@ -134,8 +139,8 @@ export default async function LaporanPenjualanPage({ searchParams }) {
         </table>
       )}
 
-      {/* ===== Struk Laporan ===== */}
-      <dialog id="preview-struk" className="dialog-struk">
+      {/* ===== Pratinjau & cetak laporan (format resmi) ===== */}
+      <dialog id="preview-struk" className="dialog-struk dialog-laporan">
         <div
           className="dialog-aksi"
           dangerouslySetInnerHTML={{
@@ -146,47 +151,72 @@ export default async function LaporanPenjualanPage({ searchParams }) {
               '<button type="button" class="btn btn-garis-soga" onclick="document.getElementById(\'preview-struk\').close()">Tutup</button>',
           }}
         />
-        <div className="struk-cetak">
-        <div className="tengah tebal">LAPORAN PENJUALAN</div>
-        <div className="tengah">Periode: {periode}</div>
-        <div className="tengah">Dicetak: {formatTanggal(new Date().toISOString())}</div>
-        <div className="garis" />
 
-        {pesanan.map((p) => (
-          <div key={p.kode} className="struk-pesanan">
-            <div className="baris tebal">
-              <span>{p.kode}</span>
-              <span>{formatTanggal(p.tanggal)}</span>
-            </div>
-            {p.item.map((b) => (
-              <div key={b.id}>
-                <div>{b.namaProduk}</div>
-                <div className="baris">
-                  <span>
-                    {b.jumlah} x {formatRupiah(b.harga)}
-                  </span>
-                  <span>{formatRupiah(b.subtotal)}</span>
-                </div>
-              </div>
-            ))}
-            <div className="garis" />
+        <div className="laporan-cetak">
+          <div className="laporan-kop">
+            <div className="laporan-nama">BATIK NUSANTARA</div>
+            <div className="laporan-judul">LAPORAN PENJUALAN</div>
+            <div className="laporan-periode">Periode: {periode}</div>
           </div>
-        ))}
 
-        <div className="baris">
-          <span>Transaksi</span>
-          <span>{laporan.totalTransaksi}</span>
-        </div>
-        <div className="baris">
-          <span>Item Terjual</span>
-          <span>{laporan.totalItemTerjual} pcs</span>
-        </div>
-        <div className="baris tebal">
-          <span>TOTAL</span>
-          <span>{formatRupiah(laporan.totalPendapatan)}</span>
-        </div>
-        <div className="garis" />
-        <div className="tengah">Terima kasih</div>
+          <table className="laporan-ringkasan">
+            <tbody>
+              <tr>
+                <td>Total Pendapatan</td>
+                <td>:</td>
+                <td>{formatRupiah(laporan.totalPendapatan)}</td>
+              </tr>
+              <tr>
+                <td>Jumlah Transaksi</td>
+                <td>:</td>
+                <td>{laporan.totalTransaksi} transaksi</td>
+              </tr>
+              <tr>
+                <td>Total Item Terjual</td>
+                <td>:</td>
+                <td>{laporan.totalItemTerjual} pcs</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <table className="laporan-tabel">
+            <thead>
+              <tr>
+                <th className="tengah">No</th>
+                <th>Tanggal</th>
+                <th>Kode Pesanan</th>
+                <th>Produk</th>
+                <th className="tengah">Jumlah</th>
+                <th className="angka">Harga Satuan</th>
+                <th className="angka">Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              {laporan.baris.map((b, i) => (
+                <tr key={b.id}>
+                  <td className="tengah">{i + 1}</td>
+                  <td>{formatTanggal(b.tanggal)}</td>
+                  <td>{b.kodePesanan}</td>
+                  <td>{b.namaProduk}</td>
+                  <td className="tengah">{b.jumlah}</td>
+                  <td className="angka">{formatRupiah(b.harga)}</td>
+                  <td className="angka">{formatRupiah(b.subtotal)}</td>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colSpan={4} className="angka">
+                  Total
+                </td>
+                <td className="tengah">{laporan.totalItemTerjual}</td>
+                <td />
+                <td className="angka">{formatRupiah(laporan.totalPendapatan)}</td>
+              </tr>
+            </tfoot>
+          </table>
+
+          <div className="laporan-catatan">Dicetak pada: {formatTanggal(new Date().toISOString())}</div>
         </div>
       </dialog>
     </>
