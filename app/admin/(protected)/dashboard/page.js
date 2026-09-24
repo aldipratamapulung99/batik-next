@@ -31,7 +31,7 @@ function batasAtasBulat(maks) {
   return ([1, 2, 2.5, 5, 10].find((m) => m * besaran >= maks) || 10) * besaran;
 }
 
-export default async function DashboardPage() {
+export default async function DashboardPage({ searchParams }) {
   const [daftarProduk, statistik, laporan] = await Promise.all([
     ambilProduk({}),
     ambilStatistikDashboard(),
@@ -86,6 +86,8 @@ export default async function DashboardPage() {
   return (
     <>
       <h1>Dashboard Produk</h1>
+
+      {searchParams?.error && <div className="alert alert-error">{searchParams.error}</div>}
 
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 20, marginBottom: 28 }}>
         <div style={{ background: 'var(--putih)', padding: '20px 28px', borderRadius: 6 }}>

@@ -700,7 +700,7 @@ section { padding: 64px 0; }
 .daftar-bar { display: flex; flex-direction: column; gap: 12px; }
 .bar-baris {
     display: grid;
-    grid-template-columns: minmax(120px, 200px) 1fr auto;
+    grid-template-columns: minmax(120px, 200px) 1fr 200px;
     align-items: center;
     gap: 14px;
     font-size: 0.9rem;
@@ -708,7 +708,7 @@ section { padding: 64px 0; }
 .bar-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .bar-track { background: #f2e9d8; border-radius: 4px; height: 18px; overflow: hidden; }
 .bar-isi { height: 100%; background: var(--soga); border-radius: 4px; }
-.bar-nilai { color: #6b5b47; white-space: nowrap; }
+.bar-nilai { color: #6b5b47; white-space: nowrap; text-align: right; }
 @media (max-width: 640px) {
     .bar-baris { grid-template-columns: 1fr; gap: 4px; }
 }
