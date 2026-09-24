@@ -25,3 +25,21 @@ export async function ubahStatusPesanAction(id, status) {
   revalidatePath('/admin/dashboard');
   revalidatePath('/admin/laporan');
 }
+
+/**
+ * Mengubah status satu transaksi (semua baris dengan kode pesanan yang sama sekaligus).
+ * Aturan sama seperti sebelumnya: pesanan yang sudah Dibatalkan tidak bisa diubah lagi,
+ * dan pesanan yang sudah Selesai tidak bisa dibatalkan.
+ */
+export async function ubahStatusTransaksiAction(ids, formData) {
+  const status = (formData.get('status') || '').toString();
+  if (!Array.isArray(ids) || !STATUS_VALID.includes(status)) return;
+
+  for (const id of ids) {
+    const lama = await ambilPesanById(id);
+    if (!lama) continue;
+    if (lama.status === 'Dibatalkan') continue;
+    if (status === 'Dibatalkan' && lama.status === 'Selesai') continue;
+    await ubahStatusPesanAction(id, status);
+  }
+}

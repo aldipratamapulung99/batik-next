@@ -17,7 +17,7 @@ export default async function AdminProtectedLayout({ children }) {
           <Link href="/admin/dashboard">Dashboard</Link>
           <Link href="/admin/tambah">Tambah Produk</Link>
           <Link href="/admin/kategori">Kategori</Link>
-          <Link href="/admin/pesan">Pesan Masuk</Link>
+          <Link href="/admin/pesan">Transaksi</Link>
           <Link href="/admin/laporan">Laporan Penjualan</Link>
           <Link href="/">Lihat Website</Link>
           <form action="/admin/logout" method="POST">
