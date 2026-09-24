@@ -36,6 +36,21 @@ export default async function LaporanPenjualanPage({ searchParams }) {
   const sampai = searchParams?.sampai || '';
   const laporan = await ambilLaporanPenjualan({ dari: dari || null, sampai: sampai || null });
 
+  // Kelompokkan baris per pesanan untuk struk
+  const pesanan = [];
+  const peta = new Map();
+  for (const b of laporan.baris) {
+    if (!peta.has(b.kodePesanan)) {
+      const p = { kode: b.kodePesanan, tanggal: b.tanggal, item: [] };
+      peta.set(b.kodePesanan, p);
+      pesanan.push(p);
+    }
+    peta.get(b.kodePesanan).item.push(b);
+  }
+  const aman = (v) => v.replace(/[^0-9-]/g, '');
+  const namaBerkas = `Laporan-Penjualan_${aman(dari) || 'awal'}_${aman(sampai) || 'akhir'}`;
+  const periode = dari || sampai ? `${dari || '...'} s/d ${sampai || '...'}` : 'Semua tanggal';
+
   return (
     <>
       <h1>Laporan Penjualan</h1>
@@ -59,6 +74,14 @@ export default async function LaporanPenjualanPage({ searchParams }) {
         <button type="submit" className="btn btn-emas">
           Tampilkan
         </button>
+        {laporan.baris.length > 0 && (
+          <span
+            dangerouslySetInnerHTML={{
+              __html:
+                '<button type="button" class="btn btn-emas" onclick="document.getElementById(\'preview-struk\').showModal()">Cetak Laporan</button>',
+            }}
+          />
+        )}
       </form>
 
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 20, marginBottom: 28 }}>
@@ -110,6 +133,62 @@ export default async function LaporanPenjualanPage({ searchParams }) {
           </tbody>
         </table>
       )}
+
+      {/* ===== Struk Laporan ===== */}
+      <dialog id="preview-struk" className="dialog-struk">
+        <div
+          className="dialog-aksi"
+          dangerouslySetInnerHTML={{
+            __html:
+              '<button type="button" class="btn btn-emas" onclick="var t=document.title;document.title=\'' +
+              namaBerkas +
+              '\';window.print();document.title=t;">Cetak / Simpan PDF</button>' +
+              '<button type="button" class="btn btn-garis-soga" onclick="document.getElementById(\'preview-struk\').close()">Tutup</button>',
+          }}
+        />
+        <div className="struk-cetak">
+        <div className="tengah tebal">LAPORAN PENJUALAN</div>
+        <div className="tengah">Periode: {periode}</div>
+        <div className="tengah">Dicetak: {formatTanggal(new Date().toISOString())}</div>
+        <div className="garis" />
+
+        {pesanan.map((p) => (
+          <div key={p.kode} className="struk-pesanan">
+            <div className="baris tebal">
+              <span>{p.kode}</span>
+              <span>{formatTanggal(p.tanggal)}</span>
+            </div>
+            {p.item.map((b) => (
+              <div key={b.id}>
+                <div>{b.namaProduk}</div>
+                <div className="baris">
+                  <span>
+                    {b.jumlah} x {formatRupiah(b.harga)}
+                  </span>
+                  <span>{formatRupiah(b.subtotal)}</span>
+                </div>
+              </div>
+            ))}
+            <div className="garis" />
+          </div>
+        ))}
+
+        <div className="baris">
+          <span>Transaksi</span>
+          <span>{laporan.totalTransaksi}</span>
+        </div>
+        <div className="baris">
+          <span>Item Terjual</span>
+          <span>{laporan.totalItemTerjual} pcs</span>
+        </div>
+        <div className="baris tebal">
+          <span>TOTAL</span>
+          <span>{formatRupiah(laporan.totalPendapatan)}</span>
+        </div>
+        <div className="garis" />
+        <div className="tengah">Terima kasih</div>
+        </div>
+      </dialog>
     </>
   );
 }

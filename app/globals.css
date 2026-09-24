@@ -561,3 +561,74 @@ section { padding: 64px 0; }
 .input-tanggal::-webkit-calendar-picker-indicator:hover {
     background: var(--krem);
 }
+
+/* ---------- Pratinjau & Cetak Struk (laporan penjualan) ---------- */
+.dialog-struk {
+    padding: 0;
+    border: 1px solid #c9bda0;
+    border-radius: var(--radius);
+    background: var(--putih);
+    max-height: 90vh;
+    overflow: auto;
+}
+.dialog-struk::backdrop { background: rgba(29, 46, 56, 0.6); }
+
+.dialog-aksi {
+    position: sticky;
+    top: 0;
+    display: flex;
+    gap: 8px;
+    padding: 12px 16px;
+    background: var(--krem);
+    border-bottom: 1px solid #e6dcc4;
+}
+
+.struk-cetak {
+    width: 80mm;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 4mm;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: #000;
+    background: #fff;
+}
+.struk-cetak .tengah { text-align: center; }
+.struk-cetak .garis { border-top: 1px dashed #000; margin: 6px 0; }
+.struk-cetak .baris { display: flex; justify-content: space-between; gap: 8px; }
+.struk-cetak .tebal { font-weight: 700; }
+.struk-cetak .struk-pesanan { margin-bottom: 6px; }
+
+@media print {
+    @page { size: A4 portrait; margin: 15mm; }
+
+    .site-header,
+    .site-footer,
+    .admin-sidebar,
+    .dialog-aksi { display: none !important; }
+
+    .admin-shell { display: block; min-height: 0; }
+    .admin-konten { padding: 0; background: #fff; }
+
+    body * { visibility: hidden; }
+    .dialog-struk,
+    .dialog-struk .struk-cetak,
+    .dialog-struk .struk-cetak * { visibility: visible; }
+
+    .dialog-struk {
+        position: absolute;
+        left: 0;
+        top: 0;
+        margin: 0;
+        width: 100%;
+        max-width: none;
+        max-height: none;
+        overflow: visible;
+        border: none;
+        padding: 0;
+        background: #fff;
+    }
+    .dialog-struk::backdrop { display: none; }
+
+    .struk-cetak { width: 100%; max-width: none; padding: 0; font-size: 14px; }
+}
